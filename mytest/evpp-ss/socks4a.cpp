@@ -38,7 +38,7 @@ void onServerMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* buf)
     {
         if (buf->length() > 128)
         {
-            conn->shutdown();
+            conn->Close();
         }
         else if (buf->length() > 8)
         {
@@ -102,7 +102,7 @@ void onServerMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* buf)
                 {
                     char response[] = "\000\x5bUVWXYZ";
                     conn->Send(response, 8);
-                    conn->shutdown();
+                    conn->Close();
                 }
             }
         }
