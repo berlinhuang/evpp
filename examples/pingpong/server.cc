@@ -8,8 +8,7 @@ void OnConnection(const evpp::TCPConnPtr& conn) {
     }
 }
 
-void OnMessage(const evpp::TCPConnPtr& conn,
-               evpp::Buffer* msg) {
+void OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg) {
     conn->Send(msg);
 }
 

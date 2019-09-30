@@ -117,7 +117,10 @@ public:
         // Set the delay time to close the socket
         close_delay_ = d;
     }
-
+    Buffer* outputBuffer()
+    { return &output_buffer_; }
+    Buffer* inputBuffer()
+    { return &input_buffer_; }
 public:
     void SetTCPNoDelay(bool on);
 

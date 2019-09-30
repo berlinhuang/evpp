@@ -156,7 +156,7 @@ void TCPConn::SendInLoop(const void* data, size_t len) {
     assert(!write_error);
     assert(remaining <= len);
 
-    if (remaining > 0) {
+    if (remaining > 0) { // 假设发送100K, 操作系统接受了80K, remain = 20K 要把这20K保存子在output_buffer
         size_t old_len = output_buffer_.length();
         if (old_len + remaining >= high_water_mark_
                 && old_len < high_water_mark_

@@ -5,14 +5,13 @@
 
 class LengthHeaderCodec {
 public:
-    typedef std::function<void(const evpp::TCPConnPtr&,
-                               const std::string& message)> StringMessageCallback;
+    typedef std::function<void(const evpp::TCPConnPtr&, const std::string& message)> StringMessageCallback;
 
     explicit LengthHeaderCodec(const StringMessageCallback& cb)
         : messageCallback_(cb) {}
 
-    void OnMessage(const evpp::TCPConnPtr& conn,
-                   evpp::Buffer* buf) {
+    void OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* buf)
+    {
         while (buf->size() >= kHeaderLen) {
             const int32_t len = buf->PeekInt32();
             if (len > 65536 || len < 0) {
@@ -32,8 +31,7 @@ public:
         }
     }
 
-    void Send(evpp::TCPConnPtr conn,
-              const evpp::Slice& message) {
+    void Send(evpp::TCPConnPtr conn, const evpp::Slice& message) {
         evpp::Buffer buf;
         buf.Append(message.data(), message.size());
         buf.PrependInt32(message.size());

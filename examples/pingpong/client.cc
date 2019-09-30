@@ -17,11 +17,10 @@ public:
         owner_(owner),
         bytes_read_(0),
         bytes_written_(0),
-        messages_read_(0) {
-        client_.SetConnectionCallback(
-            std::bind(&Session::OnConnection, this, std::placeholders::_1));
-        client_.SetMessageCallback(
-            std::bind(&Session::OnMessage, this, std::placeholders::_1, std::placeholders::_2));
+        messages_read_(0)
+    {
+        client_.SetConnectionCallback( std::bind(&Session::OnConnection, this, std::placeholders::_1));
+        client_.SetMessageCallback( std::bind(&Session::OnMessage, this, std::placeholders::_1, std::placeholders::_2));
     }
 
     void Start() {
@@ -70,7 +69,8 @@ public:
         : loop_(loop),
         session_count_(sessionCount),
         timeout_(timeout_sec),
-        connected_count_(0) {
+        connected_count_(0)
+    {
         loop->RunAfter(evpp::Duration(double(timeout_sec)), std::bind(&Client::HandleTimeout, this));
         tpool_.reset(new evpp::EventLoopThreadPool(loop, threadCount));
         tpool_->Start(true);

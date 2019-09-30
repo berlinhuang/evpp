@@ -10,14 +10,12 @@
 
 class ChatServer {
 public:
-    ChatServer(evpp::EventLoop* loop,
-               const std::string& addr)
+    ChatServer(evpp::EventLoop* loop, const std::string& addr)
         : server_(loop, addr, "ChatServer", 0),
-        codec_(std::bind(&ChatServer::OnStringMessage, this, std::placeholders::_1, std::placeholders::_2)) {
-        server_.SetConnectionCallback(
-            std::bind(&ChatServer::OnConnection, this, std::placeholders::_1));
-        server_.SetMessageCallback(
-            std::bind(&LengthHeaderCodec::OnMessage, &codec_, std::placeholders::_1, std::placeholders::_2));
+        codec_(std::bind(&ChatServer::OnStringMessage, this, std::placeholders::_1, std::placeholders::_2))
+    {
+        server_.SetConnectionCallback( std::bind(&ChatServer::OnConnection, this, std::placeholders::_1));
+        server_.SetMessageCallback( std::bind(&LengthHeaderCodec::OnMessage, &codec_, std::placeholders::_1, std::placeholders::_2));
     }
 
     void Start() {
@@ -35,11 +33,8 @@ private:
         }
     }
 
-    void OnStringMessage(const evpp::TCPConnPtr&,
-                         const std::string& message) {
-        for (ConnectionList::iterator it = connections_.begin();
-             it != connections_.end();
-             ++it) {
+    void OnStringMessage(const evpp::TCPConnPtr&, const std::string& message) {
+        for (ConnectionList::iterator it = connections_.begin(); it != connections_.end(); ++it) {
             codec_.Send(*it, message);
         }
     }
